@@ -23,7 +23,7 @@ export function Header() {
             </Dialog.Trigger>
             <Modal />
           </Dialog.Root>
-          {/* <UserLogin /> */}
+          <UserLogin />
         </Menu>
       </HeaderContent>
     </HeaderContainer>

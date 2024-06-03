@@ -9,8 +9,13 @@ import {
 import ModalEditProfile from "../modalEditProfile";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { User } from "phosphor-react";
+import { useContextSelector } from "use-context-selector";
+import { TransactionsContext } from "@/contexts/TransactionsContext";
 
 export default function UserLogin() {
+  const signout = useContextSelector(TransactionsContext, (context) => {
+    return context.signout;
+  });
   return (
     <>
       {auth.currentUser ? (
@@ -26,16 +31,16 @@ export default function UserLogin() {
                 <span>{auth.currentUser?.displayName}</span>
                 <span>{auth.currentUser.email}</span>
                 <DropdownMenu.Separator className="DropdownMenuSeparator" />
-                <DropdownMenu.Item asChild>
+                {/* <DropdownMenu.Item asChild>
                   <Dialog.Root>
                     <Dialog.Trigger asChild>
                       <EditProfile>Editar perfil</EditProfile>
                     </Dialog.Trigger>
                     <ModalEditProfile />
                   </Dialog.Root>
-                </DropdownMenu.Item>
+                </DropdownMenu.Item> */}
                 <DropdownMenu.Item>
-                  <CloseProfile>Sair da conta</CloseProfile>
+                  <CloseProfile onClick={signout}>Sair da conta</CloseProfile>
                 </DropdownMenu.Item>
               </MenuEditProfile>
             </DropdownMenu.Content>

@@ -1,12 +1,10 @@
 "use client";
 import { EnvelopeSimple, LockSimple } from "phosphor-react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import singIn from "@/firebase/auth/singIn";
-import { FirebaseError } from "firebase/app";
 import { useRef } from "react";
 import { useContextSelector } from "use-context-selector";
 import { TransactionsContext } from "@/contexts/TransactionsContext";
+
 interface User {
   name: string;
   email: string;
@@ -14,9 +12,11 @@ interface User {
 }
 
 export default function FormLogin() {
-  const navigation = useRouter();
   const fetchDate = useContextSelector(TransactionsContext, (context) => {
     return context.fetchDate;
+  });
+  const signin = useContextSelector(TransactionsContext, (context) => {
+    return context.signin;
   });
 
   const spanError = useRef<HTMLSpanElement>(null);
@@ -26,26 +26,16 @@ export default function FormLogin() {
     const email = data.email;
     const password = data.password;
     try {
-      const { result, error } = await singIn(email, password);
-      const span = spanError.current;
-      if (error && span) {
-        const firebaseError = error as FirebaseError;
-        span.style.fontSize = "1.2rem";
-        if (firebaseError.message) {
-          console.log(firebaseError.message);
-          throw new Error(firebaseError.message);
-        } else {
-          console.log("Unknown Error:", firebaseError);
-          throw new Error("Unknown Error");
-        }
-      } else {
-        if (result) {
-          navigation.push(`/user/${result.user.uid}`);
-        }
-        fetchDate();
+      const { result, error } = await signin(email, password);
+      if (error) {
+        console.error("Erro ao fazer login:", error);
+      } else if (result) {
+        console.log("Usuário logado com sucesso:", result.user);
+
+        fetchDate("");
       }
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error("Erro ao fazer login:", error);
     }
   };
   return (

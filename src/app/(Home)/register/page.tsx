@@ -23,7 +23,7 @@ export default function Register() {
         <h2>Crie sua conta</h2>
         <FormRegister />
         <span>Já possui uma conta?</span>
-        <Link href="/login">Fazer login</Link>
+        <Link href="/">Fazer login</Link>
       </ContainerForm>
     </ContainerRegister>
   );

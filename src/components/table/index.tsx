@@ -1,4 +1,4 @@
-import { PriceHighLight, TableContainer } from "./styled";
+import { PriceHighLight, TableContainer, DeleteItem } from "./styled";
 import { dateFormatter, priceFormatter } from "@/utils/formatter";
 import { useContextSelector } from "use-context-selector";
 import { TransactionsContext } from "@/contexts/TransactionsContext";
@@ -29,11 +29,10 @@ export function Table() {
             </td>
             <td>{item.data.category}</td>
             <td>{dateFormatter.format(item.data.createdAt)}</td>
-            <td>
-              <button onClick={() => deleteTransaction(item.id)}>
-                <X />
-              </button>
-            </td>
+
+            <DeleteItem onClick={() => deleteTransaction(item.id)}>
+              <X />
+            </DeleteItem>
           </tr>
         ))}
       </tbody>

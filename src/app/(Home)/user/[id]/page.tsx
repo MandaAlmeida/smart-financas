@@ -15,10 +15,9 @@ export default function Transactions() {
 
   useEffect(() => {
     if (!user) {
-      navigation.push("/login");
+      navigation.push("/");
     }
   }, [user, navigation]);
-
   return (
     <div>
       <Header />

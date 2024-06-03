@@ -42,7 +42,7 @@ export default function FormRegister() {
           });
           await sendEmailVerification(auth.currentUser);
         }
-        router.push("/login");
+        router.push("/");
       }
       console.log({ result });
     } catch (e) {

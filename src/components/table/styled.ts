@@ -7,6 +7,10 @@ export const TableContainer = styled.table`
   border-spacing: 0 0.8rem;
   margin-top: 2.4rem;
 
+  tr {
+    position: relative;
+  }
+
   td {
     padding: 2rem 3.2rem;
     background: ${(props) => props.theme["gray-700"]};
@@ -57,6 +61,21 @@ export const TableContainer = styled.table`
       }
     }
   }
+`;
+
+export const DeleteItem = styled.button`
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: ${(props) => props.theme["gray-300"]};
+  cursor: pointer;
+
+  position: absolute;
+  top: 20px;
+  right: 20px;
 `;
 
 interface PriceHighLightProps {
