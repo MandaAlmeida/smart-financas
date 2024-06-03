@@ -7,11 +7,21 @@ export const ContainerRegister = styled.main`
   gap: 20px;
   height: 100vh;
   align-items: center;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 export const SectionLogo = styled.section`
   height: 100vh;
   margin: 0 auto;
+
+  @media (max-width: 768px) {
+    height: 60px;
+    padding: 16px;
+  }
 `;
 
 export const ContainerForm = styled.section`
@@ -80,5 +90,10 @@ export const ContainerForm = styled.section`
     &:hover {
       background: ${(props) => props.theme["green-700"]};
     }
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 100vh;
   }
 `;
