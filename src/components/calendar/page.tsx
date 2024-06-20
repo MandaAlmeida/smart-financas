@@ -16,9 +16,6 @@ export default function CalendarMonth() {
   const setRange = useContextSelector(TransactionsContext, (context) => {
     return context.setRange;
   });
-  const Filter = useContextSelector(TransactionsContext, (context) => {
-    return context.Filter;
-  });
   return (
     <ContainerCalendar>
       <Popover.Root>
@@ -43,9 +40,6 @@ export default function CalendarMonth() {
             className="rounded-lg w-full"
             locale={ptBR}
           />
-          <button onClick={Filter} className="save">
-            Salvar
-          </button>
         </SectionCalendar>
       </Popover.Root>
 

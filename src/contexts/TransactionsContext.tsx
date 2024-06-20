@@ -52,8 +52,7 @@ export interface TransactionContextType {
   signout: () => void;
   range: DateRange | undefined;
   setRange: React.Dispatch<React.SetStateAction<DateRange | undefined>>;
-  filtered: boolean;
-  Filter: () => void;
+  filteredTransactions: Item[];
 }
 
 interface TransactionsProps {
@@ -78,19 +77,13 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
   const router = useRouter();
   const [range, setRange] = useState<DateRange | undefined>(initialRange);
 
-  const [filtered, setFiltered] = useState(true);
-
-  const Filter = useCallback(() => {
-    if (range) {
-      transactions?.map((item) => {
-        const dateItem = dateFormatter.format(item.data.createdAt);
-        const dateFrom = dateFormatter.format(range?.from);
-        const dateTo = dateFormatter.format(range?.to);
-        const found = dateFrom >= dateItem || dateTo >= dateItem;
-        setFiltered(found);
-      });
-    }
-  }, [range, setFiltered, transactions]);
+  const filteredTransactions = transactions?.filter((item) => {
+    const dateItem = dateFormatter.format(item.data.createdAt);
+    const dateFrom = dateFormatter.format(range?.from);
+    const dateTo = dateFormatter.format(range?.to);
+    const found = dateFrom >= dateItem || dateTo >= dateItem;
+    return found;
+  });
 
   const signin = async (email: string, password: string) => {
     let result: UserCredential | null = null;
@@ -237,8 +230,7 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
         signout,
         range,
         setRange,
-        filtered,
-        Filter,
+        filteredTransactions,
       }}
     >
       {children}

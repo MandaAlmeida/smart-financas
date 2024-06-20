@@ -6,9 +6,12 @@ import { X } from "phosphor-react";
 import { useState } from "react";
 
 export function Table() {
-  const transactions = useContextSelector(TransactionsContext, (context) => {
-    return context.transactions;
-  });
+  const filteredTransactions = useContextSelector(
+    TransactionsContext,
+    (context) => {
+      return context.filteredTransactions;
+    }
+  );
   const deleteTransaction = useContextSelector(
     TransactionsContext,
     (context) => {
@@ -16,15 +19,11 @@ export function Table() {
     }
   );
 
-  const filtered = useContextSelector(TransactionsContext, (context) => {
-    return context.filtered;
-  });
-
   return (
     <TableContainer>
       <tbody>
-        {transactions?.map((item) => {
-          return filtered ? (
+        {filteredTransactions?.length ? (
+          filteredTransactions.map((item) => (
             <tr key={item.id}>
               <td>
                 {item.data.description}
@@ -41,14 +40,14 @@ export function Table() {
               <td>{item.data.category}</td>
               <td>{dateFormatter.format(item.data.createdAt)}</td>
             </tr>
-          ) : (
-            <tr key={item.id}>
-              <td>
-                <span>Nenhum item encontrado</span>
-              </td>
-            </tr>
-          );
-        })}
+          ))
+        ) : (
+          <tr key="no-item">
+            <td>
+              <span>Nenhum item encontrado</span>
+            </td>
+          </tr>
+        )}
       </tbody>
     </TableContainer>
   );
