@@ -26,12 +26,12 @@ export default function SearchForm() {
   const { register, handleSubmit, reset, watch } = useForm<SearchFormInputs>({
     resolver: zodResolver(searchFormSchema),
   });
-
+  const query = watch("query");
   async function handleSearchTransactions(data: SearchFormInputs) {
     const queryData = data.query.toLowerCase();
     await filterTransaction(queryData);
   }
-  const query = watch("query");
+
   const isSubmitDisabled = !query;
 
   return (
@@ -53,7 +53,7 @@ export default function SearchForm() {
           <X size={20} weight="bold" />
         </ButtonClear>
       </SectionInput>
-      <ButtonSubmit type="submit" disabled={isSubmitDisabled}>
+      <ButtonSubmit type="submit">
         <MagnifyingGlass size={20} weight="bold" />
         Buscar
       </ButtonSubmit>

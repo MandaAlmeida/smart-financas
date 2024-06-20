@@ -14,14 +14,40 @@ export const ContainerRegister = styled.main`
   }
 `;
 
-export const SectionLogo = styled.section`
+export const ContainerLogo = styled.section`
+  width: 100%;
   height: 100vh;
-  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 50px;
 
-  @media (max-width: 768px) {
-    height: 60px;
-    padding: 16px;
+  background-color: ${(props) => props.theme["gray-900"]};
+
+  text-align: center;
+
+  h2 {
+    color: ${(props) => props.theme["green-500"]};
+    font-size: 32px;
   }
+  @media (max-width: 768px) {
+    height: 100px;
+    padding: 16px;
+    gap: 0;
+    background-color: transparent;
+
+    img {
+      width: 200px;
+    }
+
+    h2 {
+      font-size: 16px;
+    }
+  }
+`;
+export const SectionLogo = styled.section`
+  margin: 0 auto;
 `;
 
 export const ContainerForm = styled.section`

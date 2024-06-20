@@ -8,35 +8,13 @@ export const TranactionsContainer = styled.main`
   padding: 0 3.2rem;
 `;
 
-export const TableContainer = styled.table`
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 0.8rem;
-  margin-top: 2.4rem;
-  overflow: auto;
+export const ContainerFilter = styled.section`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
 
-  td {
-    padding: 2rem 3.2rem;
-    background: ${(props) => props.theme["gray-700"]};
-
-    &:first-child {
-      width: 50%;
-      border-radius: 6px 0 0 6px;
-    }
-
-    &:last-child {
-      border-radius: 0 6px 6px 0;
-    }
+  @media (max-width: 750px) {
+    flex-direction: column;
   }
-`;
-
-interface PriceHighLightProps {
-  variant: "income" | "outcome";
-}
-
-export const PriceHighLight = styled.span<PriceHighLightProps>`
-  color: ${(props) =>
-    props.variant === "income"
-      ? props.theme["green-300"]
-      : props.theme["red-300"]};
 `;

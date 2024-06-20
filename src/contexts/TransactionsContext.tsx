@@ -1,6 +1,7 @@
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { createContext } from "use-context-selector";
 import { auth, db } from "@/firebase/clientApp";
+import { dateFormatter } from "@/utils/formatter";
 import {
   collection,
   getDocs,
@@ -14,6 +15,8 @@ import {
   UserCredential,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { DateRange } from "react-day-picker";
+import { addDays } from "date-fns";
 
 interface Item {
   id: string;
@@ -47,6 +50,10 @@ export interface TransactionContextType {
     password: string
   ) => Promise<{ result: UserCredential | null; error: Error | null }>;
   signout: () => void;
+  range: DateRange | undefined;
+  setRange: React.Dispatch<React.SetStateAction<DateRange | undefined>>;
+  filtered: boolean;
+  Filter: () => void;
 }
 
 interface TransactionsProps {
@@ -56,10 +63,34 @@ interface TransactionsProps {
 export const TransactionsContext = createContext({} as TransactionContextType);
 
 export default function TransactionsProvider({ children }: TransactionsProps) {
+  const currentDate = new Date();
+  const initialRange: DateRange = {
+    from: new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
+    to: addDays(
+      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0),
+      0
+    ),
+  };
+
   const [transactions, setTransactions] = useState<Item[]>([]);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const [range, setRange] = useState<DateRange | undefined>(initialRange);
+
+  const [filtered, setFiltered] = useState(true);
+
+  const Filter = useCallback(() => {
+    if (range) {
+      transactions?.map((item) => {
+        const dateItem = dateFormatter.format(item.data.createdAt);
+        const dateFrom = dateFormatter.format(range?.from);
+        const dateTo = dateFormatter.format(range?.to);
+        const found = dateFrom >= dateItem || dateTo >= dateItem;
+        setFiltered(found);
+      });
+    }
+  }, [range, setFiltered, transactions]);
 
   const signin = async (email: string, password: string) => {
     let result: UserCredential | null = null;
@@ -204,6 +235,10 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
         loading,
         signin,
         signout,
+        range,
+        setRange,
+        filtered,
+        Filter,
       }}
     >
       {children}

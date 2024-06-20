@@ -3,7 +3,12 @@ import styled from "styled-components";
 
 export const SearchFormContainer = styled.form`
   display: flex;
+  flex: 1;
   gap: 1.6rem;
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: space-between;
+  }
 `;
 
 export const SectionInput = styled.section`
@@ -21,7 +26,6 @@ export const SectionInput = styled.section`
     &::placeholder {
       color: ${(props) => props.theme["gray-500"]};
     }
-
     @media (max-width: 768px) {
       height: 54px;
       font-size: 1.6rem;

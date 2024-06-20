@@ -76,6 +76,9 @@ export const DeleteItem = styled.button`
   position: absolute;
   top: 20px;
   right: 20px;
+  svg:hover {
+    color: ${(props) => props.theme["red-300"]};
+  }
 `;
 
 interface PriceHighLightProps {

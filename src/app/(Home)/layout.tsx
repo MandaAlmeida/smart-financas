@@ -1,9 +1,11 @@
 "use client";
 import TransactionsProvider from "@/contexts/TransactionsContext";
+
 import { GlobalStyle } from "@/styles/globals";
 import { defaultTheme } from "@/styles/themes/default";
 import { ReactNode } from "react";
 import { ThemeProvider } from "styled-components";
+import "../globals.css";
 
 export default function StoreLayout({ children }: { children: ReactNode }) {
   return (
