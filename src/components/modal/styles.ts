@@ -29,6 +29,14 @@ export const Content = styled(Dialog.Content)`
     flex-direction: column;
     gap: 1.6rem;
 
+    label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.4rem;
+      color: ${(props) => props.theme["gray-300"]};
+    }
+
     input {
       border-radius: 6px;
       border: 0;

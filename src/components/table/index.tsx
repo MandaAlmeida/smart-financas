@@ -37,7 +37,11 @@ export function Table() {
                 </PriceHighLight>
               </td>
               <td>{item.data.category}</td>
-              <td>{dateFormatter.format(item.data.createdAt)}</td>
+              {item.data.createdAt === 0 ? (
+                <td>Mensal</td>
+              ) : (
+                <td>{dateFormatter.format(item.data.createdAt)}</td>
+              )}
             </tr>
           ))
         ) : (

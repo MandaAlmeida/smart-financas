@@ -51,7 +51,6 @@ export function DateInput({ value, onValueChange }: DateInputProps) {
           fromYear={2020}
           toYear={2030}
           className="bg-[#121214] rounded-xl"
-          required
         />
       </SectionCalendar>
     </Popover.Root>

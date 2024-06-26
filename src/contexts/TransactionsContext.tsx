@@ -79,10 +79,19 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
   const [range, setRange] = useState<DateRange | undefined>(initialRange);
 
   const filteredTransactions = transactions?.filter((item) => {
-    const dateItem = dateFormatter.format(item.data.createdAt);
-    const dateFrom = dateFormatter.format(range?.from);
-    const dateTo = dateFormatter.format(range?.to);
-    const found = dateItem <= dateFrom || dateItem <= dateTo;
+    if (item.data.createdAt === 0) {
+      return true;
+    } else {
+    }
+    const dateItem =
+      item.data.createdAt === 0 ? 0 : dateFormatter.format(item.data.createdAt);
+    const dateFrom = range?.from ? dateFormatter.format(range.from) : null;
+    const dateTo = range?.to ? dateFormatter.format(range.to) : null;
+
+    if (!dateFrom || !dateTo) {
+      return false;
+    }
+    const found = dateItem >= dateFrom && dateItem <= dateTo;
     return found;
   });
 
@@ -159,12 +168,13 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
           }
           items = items.sort((a, b) => {
             return (
-              new Date(b.data.createdAt).getTime() -
-              new Date(a.data.createdAt).getTime()
+              new Date(a.data.createdAt).getTime() -
+              new Date(b.data.createdAt).getTime()
             );
           });
 
           setTransactions(items);
+          console.log(items);
         }
       } catch (e) {
         console.error(e);
@@ -175,32 +185,37 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
 
   const createTransaction = useCallback(
     async (data: CreateTransactionInput) => {
-      const { description, price, category, type, createdAt } = data;
-      const newTransaction = {
-        description: description,
-        price: price,
-        category: category,
-        type: type,
-        createdAt: createdAt,
-      };
+      try {
+        const { description, price, category, type, createdAt } = data;
+        const newTransaction = {
+          description: description,
+          price: price,
+          category: category,
+          type: type,
+          createdAt: createdAt ? new Date(createdAt).getTime() : 0,
+        };
 
-      const docRef = await addDoc(
-        collection(db, `${auth.currentUser?.uid}`),
-        newTransaction
-      );
-
-      setTransactions((prevTransactions) => {
-        const updatedTransactions = [
-          ...prevTransactions,
-          { id: docRef.id, data: newTransaction },
-        ];
-
-        return updatedTransactions.sort(
-          (a, b) =>
-            new Date(b.data.createdAt).getTime() -
-            new Date(a.data.createdAt).getTime()
+        const docRef = await addDoc(
+          collection(db, `${auth.currentUser?.uid}`),
+          newTransaction
         );
-      });
+
+        setTransactions((prevTransactions) => {
+          const updatedTransactions = [
+            ...prevTransactions,
+            { id: docRef.id, data: newTransaction },
+          ];
+
+          return updatedTransactions.sort(
+            (a, b) =>
+              new Date(a.data.createdAt).getTime() -
+              new Date(b.data.createdAt).getTime()
+          );
+        });
+        console.log("Transaction create:", newTransaction);
+      } catch (e) {
+        console.error("Error create transation:", e);
+      }
     },
     [setTransactions]
   );

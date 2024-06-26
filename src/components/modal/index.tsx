@@ -14,14 +14,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useContextSelector } from "use-context-selector";
 import { TransactionsContext } from "@/contexts/TransactionsContext";
 import { DateInput } from "../date";
-import { Section } from "lucide-react";
 
 const newTransactrionFormSchema = z.object({
   description: z.string(),
   price: z.number(),
   category: z.string(),
-  createdAt: z.date(),
+  createdAt: z.date().optional(),
   type: z.enum(["income", "outcome"]),
+  fixed: z.boolean(),
 });
 
 type NewTransactionFormInputs = z.infer<typeof newTransactrionFormSchema>;
@@ -42,7 +42,11 @@ export function Modal() {
   async function handleCreateNewTransaction(data: NewTransactionFormInputs) {
     const transformedData = {
       ...data,
-      createdAt: data.createdAt.getTime(),
+      createdAt: fixed
+        ? 0
+        : data.createdAt
+        ? new Date(data.createdAt).getTime()
+        : Date.now(),
     };
     createTransaction(transformedData);
 
@@ -53,9 +57,8 @@ export function Modal() {
   const price = watch("price");
   const category = watch("category");
   const type = watch("type");
-  const createdAt = watch("createdAt");
-  const isSubmitDisabled =
-    !description || !price || !category || !createdAt || !type;
+  const fixed = watch("fixed");
+  const isSubmitDisabled = !description || !price || !category || !type;
 
   return (
     <Dialog.Portal>
@@ -87,15 +90,26 @@ export function Modal() {
             required
             {...register("category")}
           />
-          <Controller
-            control={control}
-            name="createdAt"
-            render={({ field }) => (
-              <ContainerDateInput>
-                <DateInput onValueChange={field.onChange} value={field.value} />
-              </ContainerDateInput>
-            )}
-          />
+          <label htmlFor="fixed">
+            <input type="checkbox" id="fixed" {...register("fixed")} />
+            Valor mensal
+          </label>
+          {fixed ? (
+            ""
+          ) : (
+            <Controller
+              control={control}
+              name="createdAt"
+              render={({ field }) => (
+                <ContainerDateInput>
+                  <DateInput
+                    onValueChange={field.onChange}
+                    value={field.value}
+                  />
+                </ContainerDateInput>
+              )}
+            />
+          )}
 
           <Controller
             control={control}
