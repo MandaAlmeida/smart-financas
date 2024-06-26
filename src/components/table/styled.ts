@@ -16,7 +16,7 @@ export const TableContainer = styled.table`
     background: ${(props) => props.theme["gray-700"]};
 
     &:first-child {
-      width: 50%;
+      width: 40%;
       border-radius: 6px 0 0 6px;
     }
 
@@ -25,7 +25,7 @@ export const TableContainer = styled.table`
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     border-spacing: 0;
 
     tbody {
@@ -38,24 +38,22 @@ export const TableContainer = styled.table`
         flex-wrap: wrap;
 
         td {
-          &:nth-child(-n + 2) {
-            width: 100%;
-          }
-
-          &:nth-child(n + 3) {
-            width: 50%;
-          }
+          width: 50%;
 
           &:first-child {
-            border-radius: 6px 6px 0 0;
+            width: 50%;
+            border-radius: 6px 0 0;
           }
 
-          &:last-child {
-            border-radius: 0 0 6px 0;
+          &:nth-child(2n) {
+            border-radius: 0 6px 0 0;
           }
 
           &:nth-child(3n) {
             border-radius: 0 0 0 6px;
+          }
+          &:last-child {
+            border-radius: 0 0 6px 0;
           }
         }
       }
@@ -74,8 +72,9 @@ export const DeleteItem = styled.button`
   cursor: pointer;
 
   position: absolute;
-  top: 20px;
+  top: 50%;
   right: 20px;
+  transform: translateY(-50%);
   svg:hover {
     color: ${(props) => props.theme["red-300"]};
   }

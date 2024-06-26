@@ -2,8 +2,7 @@ import { PriceHighLight, TableContainer, DeleteItem } from "./styled";
 import { dateFormatter, priceFormatter } from "@/utils/formatter";
 import { useContextSelector } from "use-context-selector";
 import { TransactionsContext } from "@/contexts/TransactionsContext";
-import { X } from "phosphor-react";
-import { useState } from "react";
+import { Trash } from "phosphor-react";
 
 export function Table() {
   const filteredTransactions = useContextSelector(
@@ -28,7 +27,7 @@ export function Table() {
               <td>
                 {item.data.description}
                 <DeleteItem onClick={() => deleteTransaction(item.id)}>
-                  <X />
+                  <Trash />
                 </DeleteItem>
               </td>
               <td>

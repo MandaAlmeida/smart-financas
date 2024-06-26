@@ -36,6 +36,7 @@ interface CreateTransactionInput {
   type: "income" | "outcome";
   price: number;
   category: string;
+  createdAt: number;
 }
 
 export interface TransactionContextType {
@@ -81,7 +82,7 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
     const dateItem = dateFormatter.format(item.data.createdAt);
     const dateFrom = dateFormatter.format(range?.from);
     const dateTo = dateFormatter.format(range?.to);
-    const found = dateFrom >= dateItem || dateTo >= dateItem;
+    const found = dateItem <= dateFrom || dateItem <= dateTo;
     return found;
   });
 
@@ -116,7 +117,7 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
         if (auth.currentUser) {
           const docRef = collection(db, auth.currentUser.uid);
           const querySnapshot = await getDocs(docRef);
-          const items: Item[] = [];
+          let items: Item[] = [];
 
           if (description) {
             const keywords = description.toLowerCase().split(" ");
@@ -139,8 +140,6 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
                 };
                 items.push(item);
               }
-
-              console.log(items);
             });
           } else {
             querySnapshot.forEach((doc) => {
@@ -158,6 +157,13 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
               items.push(item);
             });
           }
+          items = items.sort((a, b) => {
+            return (
+              new Date(b.data.createdAt).getTime() -
+              new Date(a.data.createdAt).getTime()
+            );
+          });
+
           setTransactions(items);
         }
       } catch (e) {
@@ -169,13 +175,13 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
 
   const createTransaction = useCallback(
     async (data: CreateTransactionInput) => {
-      const { description, price, category, type } = data;
-      const newTransaction: Transaction = {
+      const { description, price, category, type, createdAt } = data;
+      const newTransaction = {
         description: description,
         price: price,
         category: category,
         type: type,
-        createdAt: Date.now(),
+        createdAt: createdAt,
       };
 
       const docRef = await addDoc(
@@ -183,10 +189,18 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
         newTransaction
       );
 
-      setTransactions((prevTransactions) => [
-        ...prevTransactions,
-        { id: docRef.id, data: newTransaction },
-      ]);
+      setTransactions((prevTransactions) => {
+        const updatedTransactions = [
+          ...prevTransactions,
+          { id: docRef.id, data: newTransaction },
+        ];
+
+        return updatedTransactions.sort(
+          (a, b) =>
+            new Date(b.data.createdAt).getTime() -
+            new Date(a.data.createdAt).getTime()
+        );
+      });
     },
     [setTransactions]
   );

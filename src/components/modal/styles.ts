@@ -89,6 +89,12 @@ export const CloseButton = styled(Dialog.Close)`
   cursor: pointer;
 `;
 
+export const ContainerDateInput = styled.section`
+  div {
+    z-index: 1000;
+  }
+`;
+
 export const TransactionType = styled(RadioGroup.Root)`
   display: grid;
   grid-template-columns: repeat(2, 1fr);

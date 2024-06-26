@@ -13,6 +13,10 @@ export const SummaryContainer = styled.section`
   margin: 0 auto;
   margin-top: -8rem;
   padding: 0 2.4rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 interface SummaryCardProps {
@@ -43,4 +47,8 @@ export const SummaryCard = styled.div<SummaryCardProps>`
     css`
       background: ${props.theme["green-700"]};
     `}
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;

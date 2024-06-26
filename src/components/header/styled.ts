@@ -34,6 +34,7 @@ export const NewTransactionButton = styled.button`
 
   color: ${(props) => props.theme["white"]};
   font-weight: 700;
+  font-size: 1.4rem;
 
   cursor: pointer;
 
@@ -42,9 +43,32 @@ export const NewTransactionButton = styled.button`
   &:hover {
     background: ${(props) => props.theme["green-700"]};
   }
+  svg {
+    font-size: 0;
+  }
 
   @media (max-width: 750px) {
-    height: 40px;
+    font-size: 0;
+    border-radius: 100%;
+    padding: 0.6rem;
+    border: ${(props) => props.theme["white"]} 1px solid;
+    background: transparent;
+    height: 30px;
+
+    &:active,
+    &:focus {
+      border-color: ${(props) => props.theme["green-700"]};
+      svg {
+        color: ${(props) => props.theme["green-700"]};
+      }
+    }
+
+    &:hover {
+      background: transparent;
+    }
+    svg {
+      font-size: 16px;
+    }
   }
 `;
 

@@ -38,6 +38,9 @@ export default function CalendarMonth() {
             selected={range}
             onSelect={setRange}
             className="rounded-lg w-full"
+            captionLayout="dropdown-buttons"
+            fromYear={2020}
+            toYear={2030}
             locale={ptBR}
           />
         </SectionCalendar>

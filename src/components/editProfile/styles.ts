@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const UserButton = styled.button`
+  padding: 0.5rem;
   background: transparent;
   border: none;
   border-radius: 100%;
@@ -15,10 +16,6 @@ export const UserButton = styled.button`
 
   &:hover {
     color: ${(props) => props.theme["green-500"]};
-  }
-
-  @media (max-width: 750px) {
-    height: 40px;
   }
 `;
 

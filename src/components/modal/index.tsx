@@ -2,6 +2,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import * as z from "zod";
 import {
   CloseButton,
+  ContainerDateInput,
   Content,
   Overlay,
   TransactionType,
@@ -12,11 +13,14 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useContextSelector } from "use-context-selector";
 import { TransactionsContext } from "@/contexts/TransactionsContext";
+import { DateInput } from "../date";
+import { Section } from "lucide-react";
 
 const newTransactrionFormSchema = z.object({
   description: z.string(),
   price: z.number(),
   category: z.string(),
+  createdAt: z.date(),
   type: z.enum(["income", "outcome"]),
 });
 
@@ -36,7 +40,12 @@ export function Modal() {
     });
 
   async function handleCreateNewTransaction(data: NewTransactionFormInputs) {
-    createTransaction(data);
+    const transformedData = {
+      ...data,
+      createdAt: data.createdAt.getTime(),
+    };
+    createTransaction(transformedData);
+
     reset();
   }
 
@@ -44,14 +53,16 @@ export function Modal() {
   const price = watch("price");
   const category = watch("category");
   const type = watch("type");
-  const isSubmitDisabled = !description || !price || !category || !type;
+  const createdAt = watch("createdAt");
+  const isSubmitDisabled =
+    !description || !price || !category || !createdAt || !type;
 
   return (
     <Dialog.Portal>
       <Overlay />
       <Content>
         <Dialog.Title>Nova transação</Dialog.Title>
-        <CloseButton>
+        <CloseButton onClick={() => reset()}>
           <X color="white" size={20} />
         </CloseButton>
         <form onSubmit={handleSubmit(handleCreateNewTransaction)}>
@@ -76,6 +87,16 @@ export function Modal() {
             required
             {...register("category")}
           />
+          <Controller
+            control={control}
+            name="createdAt"
+            render={({ field }) => (
+              <ContainerDateInput>
+                <DateInput onValueChange={field.onChange} value={field.value} />
+              </ContainerDateInput>
+            )}
+          />
+
           <Controller
             control={control}
             name="type"

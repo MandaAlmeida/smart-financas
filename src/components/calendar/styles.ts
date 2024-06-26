@@ -47,6 +47,27 @@ export const SectionCalendar = styled(Popover.Content)`
     justify-content: space-between;
   }
 
+  .rdp-caption_dropdowns {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    select {
+      background-color: transparent;
+      font-size: 1.4rem;
+
+      option {
+        background: ${(props) => props.theme["gray-900"]};
+      }
+    }
+  }
+
+  .rdp-vhidden,
+  .rdp-dropdown_month div,
+  .rdp-dropdown_year div {
+    display: none;
+  }
+
   button.save {
     justify-content: center;
     background-color: ${(props) => props.theme["green-500"]};
