@@ -72,10 +72,7 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
   const currentDate = new Date();
   const initialRange: DateRange = {
     from: new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
-    to: addDays(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0),
-      0
-    ),
+    to: addDays(new Date(), 0),
   };
 
   const [transactions, setTransactions] = useState<Item[]>([]);
@@ -89,13 +86,20 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
       return true;
     } else {
     }
-    const dateItem =
-      item.data.createdAt === 0 ? 0 : dateFormatter.format(item.data.createdAt);
-    const dateFrom = range?.from ? dateFormatter.format(range.from) : null;
-    const dateTo = range?.to ? dateFormatter.format(range.to) : null;
+    const dateItem = item.data.createdAt;
+    const dateFrom = range?.from
+      ? range.from.getTime()
+      : range?.to
+      ? range.to.getTime()
+      : null;
+    const dateTo = range?.to
+      ? range.to.getTime()
+      : range?.from
+      ? range.from.getTime()
+      : null;
 
     if (!dateFrom || !dateTo) {
-      return false;
+      return true;
     }
     const found = dateItem >= dateFrom && dateItem <= dateTo;
     return found;
@@ -183,7 +187,6 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
           });
 
           setTransactions(items);
-          console.log(items);
         }
       } catch (e) {
         console.error(e);
@@ -203,7 +206,7 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
             price,
             category,
             type,
-            createdAt: createdAt ? new Date(createdAt).getTime() : Date.now(),
+            createdAt: createdAt ? new Date(createdAt).getTime() : 0,
           };
 
           const docRef = await addDoc(
@@ -264,7 +267,7 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
 
           setTransactions((prevTransactions) =>
             prevTransactions.map((transaction) =>
-              transaction.id === id
+              transaction.id === id && transaction.data !== updatedFields
                 ? {
                     ...transaction,
                     data: { ...transaction.data, ...updatedFields },
@@ -272,7 +275,6 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
                 : transaction
             )
           );
-
           console.log("Transaction edit:", id);
         } catch (e) {
           console.error("Error editing transaction:", e);

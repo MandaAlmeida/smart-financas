@@ -44,7 +44,6 @@ export default function FormRegister() {
         }
         router.push("/");
       }
-      console.log({ result });
     } catch (e) {
       console.error(e);
     }

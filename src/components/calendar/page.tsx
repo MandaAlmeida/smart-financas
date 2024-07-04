@@ -16,20 +16,31 @@ export default function CalendarMonth() {
   const setRange = useContextSelector(TransactionsContext, (context) => {
     return context.setRange;
   });
+  const today = new Date();
+  const disabledDates = {
+    from: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1),
+    to: new Date(2050, 11, 31),
+  };
   return (
     <ContainerCalendar>
       <Popover.Root>
         <Popover.Trigger asChild>
           <section className="cursor-pointer">
             <CalendarIcon />
-            {monthFormatter.format(range?.from) <=
-            monthFormatter.format(range?.to) ? (
-              <span>{`Periodo: ${monthFormatter.format(range?.from)} à 
-            ${monthFormatter.format(range?.to)}`}</span>
-            ) : (
-              <span>{`Periodo:  ${monthFormatter.format(range?.to)}  à 
-           ${monthFormatter.format(range?.from)}`}</span>
-            )}
+
+            {range?.from &&
+              range?.to &&
+              (range.from.getTime() === range.to.getTime() ? (
+                <span>{`Periodo: ${monthFormatter.format(range.from)}`}</span>
+              ) : range.from.getTime() <= range.to.getTime() ? (
+                <span>{`Periodo: ${monthFormatter.format(
+                  range.from
+                )} à ${monthFormatter.format(range.to)}`}</span>
+              ) : (
+                <span>{`Periodo: ${monthFormatter.format(
+                  range.to
+                )} à ${monthFormatter.format(range.from)}`}</span>
+              ))}
           </section>
         </Popover.Trigger>
         <SectionCalendar>
@@ -40,8 +51,9 @@ export default function CalendarMonth() {
             className="rounded-lg w-full"
             captionLayout="dropdown-buttons"
             fromYear={2020}
-            toYear={2030}
+            toYear={2050}
             locale={ptBR}
+            disabled={disabledDates}
           />
         </SectionCalendar>
       </Popover.Root>

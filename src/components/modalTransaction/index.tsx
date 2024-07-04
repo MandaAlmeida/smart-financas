@@ -43,7 +43,7 @@ export function ModalTransaction() {
   async function handleCreateNewTransaction(data: NewTransactionFormInputs) {
     const transformedData = {
       ...data,
-      createdAt: fixed
+      createdAt: data.fixed
         ? 0
         : data.createdAt
         ? new Date(data.createdAt).getTime()

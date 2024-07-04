@@ -53,8 +53,14 @@ export const TableContainer = styled.table`
           &:nth-child(3n) {
             border-radius: 0 0 0 6px;
           }
-          &:last-child {
+
+          &:nth-child(4n) {
             border-radius: 0 0 6px 0;
+          }
+
+          &.no-item {
+            width: 100%;
+            border-radius: 6px;
           }
         }
       }
@@ -74,6 +80,16 @@ export const ContainerItens = styled.td`
 
     color: ${(props) => props.theme["gray-300"]};
     cursor: pointer;
+  }
+
+  @media (max-width: 900px) {
+    position: absolute;
+    width: 15%;
+    background: transparent;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    padding: 0;
   }
 `;
 

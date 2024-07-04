@@ -18,8 +18,8 @@ export const HeaderContent = styled.div`
   padding: 0 2.4rem;
 
   @media (max-width: 750px) {
-    img {
-      width: 50%;
+    img svg {
+      width: 60%;
     }
   }
 `;

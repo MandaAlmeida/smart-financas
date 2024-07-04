@@ -7,7 +7,10 @@ import {
 } from "./styled";
 import { dateFormatter, priceFormatter } from "@/utils/formatter";
 import { useContextSelector } from "use-context-selector";
-import { TransactionsContext } from "@/contexts/TransactionsContext";
+import {
+  Transaction,
+  TransactionsContext,
+} from "@/contexts/TransactionsContext";
 import { PencilSimpleLine, Trash } from "phosphor-react";
 import { useState } from "react";
 import { Pagination } from "../pagination/index";
@@ -16,6 +19,11 @@ import { ModalEdition } from "../modalEdition";
 
 interface PaginatedTableProps {
   itemsPerPage: number;
+}
+
+interface Item {
+  id: string;
+  data: Transaction;
 }
 
 export function Table({ itemsPerPage }: PaginatedTableProps) {
@@ -61,6 +69,10 @@ export function Table({ itemsPerPage }: PaginatedTableProps) {
   );
   const [isOpen, setIsOpen] = useState(false);
 
+  const [currentTransaction, setCurrentTransaction] = useState<Item | null>(
+    null
+  );
+
   return (
     <>
       <TableContainer>
@@ -84,15 +96,22 @@ export function Table({ itemsPerPage }: PaginatedTableProps) {
                 <ContainerItens>
                   <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
                     <Dialog.Trigger asChild>
-                      <EditItem onClick={() => setIsOpen(true)}>
+                      <EditItem
+                        onClick={() => {
+                          setIsOpen(true);
+                          setCurrentTransaction(item);
+                        }}
+                      >
                         <PencilSimpleLine />
                       </EditItem>
                     </Dialog.Trigger>
-                    <ModalEdition
-                      id={item.id}
-                      data={item.data}
-                      setIsOpen={setIsOpen}
-                    />
+                    {currentTransaction && (
+                      <ModalEdition
+                        id={currentTransaction.id}
+                        data={currentTransaction.data}
+                        setIsOpen={setIsOpen}
+                      />
+                    )}
                   </Dialog.Root>
                   <DeleteItem onClick={() => deleteTransaction(item.id)}>
                     <Trash />
@@ -102,7 +121,7 @@ export function Table({ itemsPerPage }: PaginatedTableProps) {
             ))
           ) : (
             <tr key="no-item">
-              <td>
+              <td className="no-item">
                 <span>Nenhum item encontrado</span>
               </td>
             </tr>

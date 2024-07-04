@@ -12,12 +12,12 @@ import { ArrowCircleDown, ArrowCircleUp, X } from "phosphor-react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useContextSelector } from "use-context-selector";
+import { useEffect } from "react";
 import {
   Transaction,
   TransactionsContext,
 } from "@/contexts/TransactionsContext";
 import { DateInput } from "../date";
-import { useState } from "react";
 
 const TransactionFormSchema = z.object({
   description: z.string(),
@@ -40,18 +40,21 @@ export function ModalEdition({ id, data, setIsOpen }: ModalEditionProps) {
   const { control, register, handleSubmit, watch, reset } =
     useForm<TransactionFormInputs>({
       resolver: zodResolver(TransactionFormSchema),
-      defaultValues: {
-        description: data.description,
-        price: data.price,
-        category: data.category,
-        type: data.type,
-        createdAt: new Date(data.createdAt),
-      },
     });
 
   const editTransaction = useContextSelector(TransactionsContext, (context) => {
     return context.editTransaction;
   });
+
+  useEffect(() => {
+    reset({
+      description: data.description,
+      price: data.price,
+      category: data.category,
+      type: data.type,
+      createdAt: new Date(data.createdAt),
+    });
+  }, [data, reset]);
 
   async function handleEditTransaction(formData: TransactionFormInputs) {
     const transformedData = {
@@ -78,19 +81,26 @@ export function ModalEdition({ id, data, setIsOpen }: ModalEditionProps) {
       <Overlay />
       <Content>
         <Dialog.Title>Editar transação</Dialog.Title>
-        <CloseButton onClick={() => reset()}>
+        <CloseButton
+          onClick={() => {
+            reset();
+            setIsOpen(false);
+          }}
+        >
           <X color="white" size={20} />
         </CloseButton>
         <form onSubmit={handleSubmit(handleEditTransaction)}>
           <input
             type="text"
             placeholder="Descrição"
+            required
             {...register("description")}
           />
           <input
             type="number"
             placeholder="Preço"
             step="0.01"
+            required
             {...register("price", {
               valueAsNumber: true,
             })}
@@ -98,13 +108,16 @@ export function ModalEdition({ id, data, setIsOpen }: ModalEditionProps) {
           <input
             type="text"
             placeholder="Categoria"
+            required
             {...register("category")}
           />
           <label htmlFor="fixed">
             <input type="checkbox" id="fixed" {...register("fixed")} />
             Valor mensal
           </label>
-          {!fixed && (
+          {fixed ? (
+            ""
+          ) : (
             <Controller
               control={control}
               name="createdAt"
@@ -118,6 +131,7 @@ export function ModalEdition({ id, data, setIsOpen }: ModalEditionProps) {
               )}
             />
           )}
+
           <Controller
             control={control}
             name="type"
@@ -140,7 +154,7 @@ export function ModalEdition({ id, data, setIsOpen }: ModalEditionProps) {
             }}
           />
           <button type="submit" disabled={isSubmitDisabled}>
-            Editar Transação
+            Editar
           </button>
         </form>
       </Content>

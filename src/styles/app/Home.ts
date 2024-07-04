@@ -6,7 +6,7 @@ export const TranactionsContainer = styled.main`
   max-width: 112rem;
   margin: 6.4rem auto 0;
   padding: 0 3.2rem;
-  height: 100vh;
+  min-height: 50vh;
 `;
 
 export const ContainerFilter = styled.section`
