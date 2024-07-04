@@ -20,7 +20,7 @@ export default function CalendarMonth() {
     <ContainerCalendar>
       <Popover.Root>
         <Popover.Trigger asChild>
-          <section>
+          <section className="cursor-pointer">
             <CalendarIcon />
             {monthFormatter.format(range?.from) <=
             monthFormatter.format(range?.to) ? (

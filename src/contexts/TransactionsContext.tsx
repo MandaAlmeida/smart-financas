@@ -8,12 +8,14 @@ import {
   addDoc,
   deleteDoc,
   doc,
+  updateDoc,
 } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import {
   User,
   UserCredential,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { DateRange } from "react-day-picker";
 import { addDays } from "date-fns";
@@ -44,6 +46,10 @@ export interface TransactionContextType {
   fetchDate: (descrition: string) => void;
   deleteTransaction: (id: string) => Promise<void>;
   createTransaction: (data: CreateTransactionInput) => Promise<void>;
+  editTransaction: (
+    id: string,
+    updatedFields: Partial<Transaction>
+  ) => Promise<void>;
   user: User | null;
   loading: boolean;
   signin: (
@@ -104,17 +110,18 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
       router.push(`/user/${result.user.uid}`);
     } catch (e: any) {
       error = e as Error;
+      console.error("Error signing in:", error);
     }
     return { result, error };
   };
-
-  const signout = () => {
+  const signout = async () => {
     try {
-      auth.signOut().then(() => {
-        setUser(null);
-        console.log(user);
-        router.push("/");
-      });
+      await signOut(auth);
+      setUser(null);
+      console.log("User signed out");
+      router.push("/");
+    } catch (error) {
+      console.error("Error signing out:", error);
     } finally {
       setLoading(false);
     }
@@ -124,7 +131,8 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
     async (description: string) => {
       try {
         if (auth.currentUser) {
-          const docRef = collection(db, auth.currentUser.uid);
+          const userUid = auth.currentUser.uid;
+          const docRef = collection(db, "users", userUid, "transactions");
           const querySnapshot = await getDocs(docRef);
           let items: Item[] = [];
 
@@ -166,6 +174,7 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
               items.push(item);
             });
           }
+
           items = items.sort((a, b) => {
             return (
               new Date(a.data.createdAt).getTime() -
@@ -186,35 +195,39 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
   const createTransaction = useCallback(
     async (data: CreateTransactionInput) => {
       try {
-        const { description, price, category, type, createdAt } = data;
-        const newTransaction = {
-          description: description,
-          price: price,
-          category: category,
-          type: type,
-          createdAt: createdAt ? new Date(createdAt).getTime() : 0,
-        };
+        if (auth.currentUser) {
+          const userUid = auth.currentUser.uid;
+          const { description, price, category, type, createdAt } = data;
+          const newTransaction = {
+            description,
+            price,
+            category,
+            type,
+            createdAt: createdAt ? new Date(createdAt).getTime() : Date.now(),
+          };
 
-        const docRef = await addDoc(
-          collection(db, `${auth.currentUser?.uid}`),
-          newTransaction
-        );
-
-        setTransactions((prevTransactions) => {
-          const updatedTransactions = [
-            ...prevTransactions,
-            { id: docRef.id, data: newTransaction },
-          ];
-
-          return updatedTransactions.sort(
-            (a, b) =>
-              new Date(a.data.createdAt).getTime() -
-              new Date(b.data.createdAt).getTime()
+          const docRef = await addDoc(
+            collection(db, "users", userUid, "transactions"),
+            newTransaction
           );
-        });
-        console.log("Transaction create:", newTransaction);
+
+          setTransactions((prevTransactions) => {
+            const updatedTransactions = [
+              ...prevTransactions,
+              { id: docRef.id, data: newTransaction },
+            ];
+
+            return updatedTransactions.sort(
+              (a, b) =>
+                new Date(a.data.createdAt).getTime() -
+                new Date(b.data.createdAt).getTime()
+            );
+          });
+
+          console.log("Transaction created:", newTransaction);
+        }
       } catch (e) {
-        console.error("Error create transation:", e);
+        console.error("Error creating transaction:", e);
       }
     },
     [setTransactions]
@@ -223,14 +236,46 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
   const deleteTransaction = useCallback(
     async (id: string) => {
       if (auth.currentUser) {
+        const userUid = auth.currentUser.uid;
         try {
-          await deleteDoc(doc(db, auth.currentUser.uid, id));
+          await deleteDoc(doc(db, "users", userUid, "transactions", id));
           setTransactions((prevTransactions) =>
             prevTransactions.filter((transaction) => transaction.id !== id)
           );
+
           console.log("Transaction deleted:", id);
         } catch (e) {
           console.error("Error deleting transaction:", e);
+        }
+      }
+    },
+    [setTransactions]
+  );
+
+  const editTransaction = useCallback(
+    async (id: string, updatedFields: Partial<Transaction>) => {
+      if (auth.currentUser) {
+        const userUid = auth.currentUser.uid;
+        try {
+          await updateDoc(
+            doc(db, "users", userUid, "transactions", id),
+            updatedFields
+          );
+
+          setTransactions((prevTransactions) =>
+            prevTransactions.map((transaction) =>
+              transaction.id === id
+                ? {
+                    ...transaction,
+                    data: { ...transaction.data, ...updatedFields },
+                  }
+                : transaction
+            )
+          );
+
+          console.log("Transaction edit:", id);
+        } catch (e) {
+          console.error("Error editing transaction:", e);
         }
       }
     },
@@ -260,6 +305,7 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
         range,
         setRange,
         filteredTransactions,
+        editTransaction,
       }}
     >
       {children}

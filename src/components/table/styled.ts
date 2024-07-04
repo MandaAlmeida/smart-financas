@@ -12,7 +12,8 @@ export const TableContainer = styled.table`
   }
 
   td {
-    padding: 2rem 3.2rem;
+    padding: 2rem 1.5rem;
+    height: 59px;
     background: ${(props) => props.theme["gray-700"]};
 
     &:first-child {
@@ -61,22 +62,30 @@ export const TableContainer = styled.table`
   }
 `;
 
-export const DeleteItem = styled.button`
-  background: transparent;
-  border: none;
+export const ContainerItens = styled.td`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: end;
+  gap: 20px;
 
-  color: ${(props) => props.theme["gray-300"]};
-  cursor: pointer;
+  button {
+    background: transparent;
+    border: none;
 
-  position: absolute;
-  top: 50%;
-  right: 20px;
-  transform: translateY(-50%);
+    color: ${(props) => props.theme["gray-300"]};
+    cursor: pointer;
+  }
+`;
+
+export const DeleteItem = styled.button`
   svg:hover {
     color: ${(props) => props.theme["red-300"]};
+  }
+`;
+
+export const EditItem = styled.button`
+  svg:hover {
+    color: ${(props) => props.theme["green-300"]};
   }
 `;
 

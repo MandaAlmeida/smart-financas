@@ -7,7 +7,7 @@ import {
   Menu,
   NewTransactionButton,
 } from "./styled";
-import { Modal } from "../modal";
+import { ModalTransaction } from "../modalTransaction";
 import Image from "next/image";
 import UserLogin from "../editProfile";
 import { Plus } from "phosphor-react";
@@ -24,7 +24,7 @@ export function Header() {
                 <Plus /> Nova transação
               </NewTransactionButton>
             </Dialog.Trigger>
-            <Modal />
+            <ModalTransaction />
           </Dialog.Root>
           <UserLogin />
         </Menu>
