@@ -47,7 +47,7 @@ export function ModalTransaction() {
         ? 0
         : data.createdAt
         ? new Date(data.createdAt).getTime()
-        : Date.now(),
+        : new Date().setHours(0, 0, 0, 0),
     };
     createTransaction(transformedData);
 

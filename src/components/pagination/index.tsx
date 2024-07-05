@@ -26,9 +26,16 @@ export function Pagination({
       <span>Total de {totalCount} item(s)</span>
 
       <div>
-        <span>
-          Pagina {pageIndex} de {pages}
-        </span>
+        {pages == 0 ? (
+          <span>
+            Pagina {pageIndex} de {1}
+          </span>
+        ) : (
+          <span>
+            Pagina {pageIndex} de {pages}
+          </span>
+        )}
+
         <section>
           <button
             onClick={() => onPageChange("first")}
