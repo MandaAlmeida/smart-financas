@@ -102,12 +102,6 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
       return true;
     }
     const found = dateItem >= dateFrom && dateItem <= dateTo;
-    console.log(
-      dateItem,
-      dateFrom,
-      dateTo,
-      dateItem >= dateFrom && dateItem <= dateTo
-    );
     return found;
   });
 
