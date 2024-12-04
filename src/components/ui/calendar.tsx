@@ -41,13 +41,13 @@ function Calendar({
           "h-10 w-10 p-0 font-normal aria-selected:opacity-100"
         ),
         day_range_end: "day-range-end",
-        day_selected: "bg-[#00875F] text-[#E1E1E6] focus:bg-[#00875F]",
-        day_today: "bg-[#00573d] text-[#E1E1E6]",
+        day_selected: "bg-[#004769] text-[#E1E1E6] focus:bg-[#004769]",
+        day_today: "bg-[#0091CF] text-[#E1E1E6]",
         day_outside:
-          "day-outside text-muted-foreground opacity-50 aria-selected:bg-[#00875F] aria-selected:text-muted-foreground aria-selected:opacity-30",
+          "day-outside text-muted-foreground opacity-50 aria-selected:bg-[#004769] aria-selected:text-muted-foreground aria-selected:opacity-30",
         day_disabled: "text-muted-foreground opacity-50",
         day_range_middle:
-          "aria-selected:bg-[#00875F] aria-selected:text-accent-foreground",
+          "aria-selected:bg-[#004769] aria-selected:text-accent-foreground",
         day_hidden: "invisible",
         ...classNames,
       }}

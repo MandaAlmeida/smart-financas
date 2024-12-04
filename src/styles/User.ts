@@ -17,37 +17,8 @@ export const ContainerRegister = styled.main`
 export const ContainerLogo = styled.section`
   width: 100%;
   height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 50px;
 
-  background-color: ${(props) => props.theme["gray-900"]};
-
-  text-align: center;
-
-  h2 {
-    color: ${(props) => props.theme["green-500"]};
-    font-size: 32px;
-  }
-  @media (max-width: 768px) {
-    height: 100px;
-    padding: 16px;
-    gap: 0;
-    background-color: transparent;
-
-    img {
-      width: 200px;
-    }
-
-    h2 {
-      font-size: 16px;
-    }
-  }
-`;
-export const SectionLogo = styled.section`
-  margin: 0 auto;
+  background-color: ${(props) => props.theme["blue-700"]};
 `;
 
 export const ContainerForm = styled.section`
@@ -55,10 +26,12 @@ export const ContainerForm = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 30px;
+
 
   a {
-    color: ${(props) => props.theme["green-500"]};
+    color: ${(props) => props.theme["blue-700"]};
+    font-weight: 700;
+    margin-top: 10px;
   }
 
   form {
@@ -86,18 +59,19 @@ export const ContainerForm = styled.section`
     width: 100%;
     border: 0;
     border-radius: 10px;
-    background: ${(props) => props.theme["gray-900"]};
+    background: ${(props) => props.theme["gray-300"]};
     padding: 5px 51px;
-    color: ${(props) => props.theme["gray-100"]};
+    color: ${(props) => props.theme["gray-600"]};
 
     &::placeholder {
-      color: ${(props) => props.theme["gray-200"]};
+      color: ${(props) => props.theme["gray-600"]};
     }
   }
+
   svg {
     position: absolute;
     font-size: 20px;
-    color: ${(props) => props.theme["green-500"]};
+    color: ${(props) => props.theme["blue-700"]};
     top: 50%;
     left: 18px;
     transform: translateY(-50%);
@@ -107,15 +81,20 @@ export const ContainerForm = styled.section`
     border: 0;
     height: 45px;
     border-radius: 10px;
-    background-color: ${(props) => props.theme["green-500"]};
+    background-color: ${(props) => props.theme["blue-700"]};
     color: ${(props) => props.theme["gray-100"]};
     transition: background 0.5s ease-in-out;
 
     cursor: pointer;
 
     &:hover {
-      background: ${(props) => props.theme["green-700"]};
+      background: ${(props) => props.theme["blue-500"]};
     }
+  }
+
+  span{
+    margin-top: 30px;
+    color: ${(props) => props.theme["gray-400"]};
   }
 
   @media (max-width: 768px) {

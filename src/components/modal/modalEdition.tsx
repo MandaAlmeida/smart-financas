@@ -62,8 +62,8 @@ export function ModalEdition({ id, data, setIsOpen }: ModalEditionProps) {
       createdAt: formData.fixed
         ? 0
         : formData.createdAt
-        ? new Date(formData.createdAt).getTime()
-        : Date.now(),
+          ? new Date(formData.createdAt).getTime()
+          : Date.now(),
     };
     await editTransaction(id, transformedData);
     setIsOpen(false);
@@ -87,7 +87,7 @@ export function ModalEdition({ id, data, setIsOpen }: ModalEditionProps) {
             setIsOpen(false);
           }}
         >
-          <X color="white" size={20} />
+          <X size={20} />
         </CloseButton>
         <form onSubmit={handleSubmit(handleEditTransaction)}>
           <input

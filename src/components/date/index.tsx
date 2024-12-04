@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 import { cn } from "@/lib/utils";
@@ -33,7 +32,7 @@ export function DateInput({ value, onValueChange }: DateInputProps) {
         <Button
           variant={"outline"}
           className={cn(
-            "w-full h-[51px] p-4 justify-start border-transparent bg-[#121214] rounded-[6px] text-[#C4C4CC]",
+            "w-full h-[51px] p-4 justify-start border-transparent bg-[#C4C4CC] rounded-[6px] text-[#323238]",
             !date && "text-muted-foreground"
           )}
         >
@@ -50,7 +49,7 @@ export function DateInput({ value, onValueChange }: DateInputProps) {
           captionLayout="dropdown-buttons"
           fromYear={2020}
           toYear={2030}
-          className="bg-[#121214] rounded-xl"
+          className="bg-[#C4C4CC] rounded-xl"
         />
       </SectionCalendar>
     </Popover.Root>

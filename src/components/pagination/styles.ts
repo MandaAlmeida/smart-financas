@@ -8,7 +8,7 @@ export const PaginationContainer = styled.div`
 
   span {
     font-size: 1.4rem;
-    color: ${(props) => props.theme["gray-100"]};
+    color: ${(props) => props.theme["blue-700"]};
   }
 
   div {
@@ -30,19 +30,21 @@ export const PaginationContainer = styled.div`
     justify-content: center;
     width: 25px;
     height: 25px;
-    border: 1px ${(props) => props.theme["gray-100"]} solid;
+    border: 1px ${(props) => props.theme["blue-700"]} solid;
     border-radius: 5px;
 
+    cursor: pointer;
+
     &:disabled {
-      border-color: ${(props) => props.theme["gray-500"]};
+      border-color: ${(props) => props.theme["gray-300"]};
       svg {
-        color: ${(props) => props.theme["gray-500"]};
+        color: ${(props) => props.theme["gray-300"]};
       }
     }
-    &:hover {
-      border-color: ${(props) => props.theme["green-500"]};
+    &:hover:not(:disabled) {
+      border-color: ${(props) => props.theme["blue-300"]};
       svg {
-        color: ${(props) => props.theme["green-500"]};
+        color: ${(props) => props.theme["blue-300"]};
       }
     }
 

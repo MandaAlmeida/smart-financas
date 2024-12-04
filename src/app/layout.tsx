@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-import Head from "next/head";
 
 const roboto = Roboto({
   weight: "400",
@@ -11,6 +10,9 @@ const roboto = Roboto({
 export const metadata: Metadata = {
   title: { template: "%s | SmartFinance", default: "SmartFinance" },
   description: "Comece hoje a gerenciar melhor sua vida",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
@@ -20,9 +22,6 @@ export default function RootLayout({
 }>) {
   return (
     <html className={roboto.variable} lang="pt-BR">
-      <Head>
-        <link rel="icon" href="/favicon.png" />
-      </Head>
       <body>{children}</body>
     </html>
   );

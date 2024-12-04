@@ -1,7 +1,6 @@
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { createContext } from "use-context-selector";
 import { auth, db } from "@/firebase/clientApp";
-import { dateFormatter } from "@/utils/formatter";
 import {
   collection,
   getDocs,
@@ -90,18 +89,19 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
     const dateFrom = range?.from
       ? range.from.getTime()
       : range?.to
-      ? range.to.getTime()
-      : null;
+        ? range.to.getTime()
+        : null;
     const dateTo = range?.to
       ? range.to.getTime()
       : range?.from
-      ? range.from.getTime()
-      : null;
+        ? range.from.getTime()
+        : null;
 
     if (!dateFrom || !dateTo) {
       return true;
     }
     const found = dateItem >= dateFrom && dateItem <= dateTo;
+
     return found;
   });
 
@@ -269,9 +269,9 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
             prevTransactions.map((transaction) =>
               transaction.id === id && transaction.data !== updatedFields
                 ? {
-                    ...transaction,
-                    data: { ...transaction.data, ...updatedFields },
-                  }
+                  ...transaction,
+                  data: { ...transaction.data, ...updatedFields },
+                }
                 : transaction
             )
           );

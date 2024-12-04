@@ -19,12 +19,12 @@ export const SectionInput = styled.section`
     height: 7rem;
     border-radius: 6px;
     border: 0;
-    background: ${(props) => props.theme["gray-900"]};
-    color: ${(props) => props.theme["gray-300"]};
+    background: ${(props) => props.theme["gray-300"]};
+    color: ${(props) => props.theme["gray-600"]};
     padding: 1.6rem;
 
     &::placeholder {
-      color: ${(props) => props.theme["gray-500"]};
+      color: ${(props) => props.theme["gray-600"]};
     }
     @media (max-width: 768px) {
       height: 54px;
@@ -56,11 +56,11 @@ export const ButtonSubmit = styled.button`
   gap: 1.2rem;
   background: transparent;
 
-  border: 1px solid ${(props) => props.theme["green-300"]};
+  border: 1px solid ${(props) => props.theme["blue-400"]};
   border-radius: 6px;
   padding: 1.6rem;
 
-  color: ${(props) => props.theme["green-300"]};
+  color: ${(props) => props.theme["blue-400"]};
   font-weight: bold;
 
   cursor: pointer;
@@ -73,8 +73,8 @@ export const ButtonSubmit = styled.button`
   }
 
   &:not(:disabled):hover {
-    background: ${(props) => props.theme["green-500"]};
-    border-color: ${(props) => props.theme["green-500"]};
+    background: ${(props) => props.theme["blue-700"]};
+    border-color: ${(props) => props.theme["blue-700"]};
     color: ${(props) => props.theme.white};
   }
 

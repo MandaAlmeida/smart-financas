@@ -15,7 +15,7 @@ import { PencilSimpleLine, Trash } from "phosphor-react";
 import { useState } from "react";
 import { Pagination } from "../pagination/index";
 import * as Dialog from "@radix-ui/react-dialog";
-import { ModalEdition } from "../modalEdition";
+import { ModalTransaction } from "../modal/modalTransaction";
 
 interface PaginatedTableProps {
   itemsPerPage: number;
@@ -67,11 +67,7 @@ export function Table({ itemsPerPage }: PaginatedTableProps) {
     startIndex,
     startIndex + itemsPerPage
   );
-  const [isOpen, setIsOpen] = useState(false);
 
-  const [currentTransaction, setCurrentTransaction] = useState<Item | null>(
-    null
-  );
 
   return (
     <>
@@ -94,24 +90,11 @@ export function Table({ itemsPerPage }: PaginatedTableProps) {
                   <td>{dateFormatter.format(item.data.createdAt)}</td>
                 )}
                 <ContainerItens>
-                  <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
-                    <Dialog.Trigger asChild>
-                      <EditItem
-                        onClick={() => {
-                          setIsOpen(true);
-                          setCurrentTransaction(item);
-                        }}
-                      >
-                        <PencilSimpleLine />
-                      </EditItem>
+                  <Dialog.Root>
+                    <Dialog.Trigger >
+                      <PencilSimpleLine />
                     </Dialog.Trigger>
-                    {currentTransaction && (
-                      <ModalEdition
-                        id={currentTransaction.id}
-                        data={currentTransaction.data}
-                        setIsOpen={setIsOpen}
-                      />
-                    )}
+                    <ModalTransaction title="Editar transação" id={item.id} data={item?.data} />
                   </Dialog.Root>
                   <DeleteItem onClick={() => deleteTransaction(item.id)}>
                     <Trash />
@@ -120,8 +103,8 @@ export function Table({ itemsPerPage }: PaginatedTableProps) {
               </tr>
             ))
           ) : (
-            <tr key="no-item">
-              <td className="no-item">
+            <tr key="no-item" >
+              <td className="no-item" style={{ borderRadius: "6px" }}>
                 <span>Nenhum item encontrado</span>
               </td>
             </tr>

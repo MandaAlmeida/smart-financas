@@ -6,8 +6,6 @@ import singUp from "@/firebase/auth/singUp";
 import { FirebaseError } from "firebase/app";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
-import { sendEmailVerification, updateProfile } from "firebase/auth";
-import { auth } from "@/firebase/clientApp";
 
 interface Users {
   name: string;
@@ -22,8 +20,9 @@ export default function FormRegister() {
   const onSubmit: SubmitHandler<Users> = async (data) => {
     const email = data.email;
     const password = data.password;
+    const name = data.name;
     try {
-      const { result, error } = await singUp(email, password);
+      const { result, error } = await singUp(email, password, name);
       const span = spanError.current;
       if (error && span) {
         const firebaseError = error as FirebaseError;
@@ -36,12 +35,6 @@ export default function FormRegister() {
           throw new Error("Unknown Error");
         }
       } else {
-        if (auth.currentUser) {
-          updateProfile(auth.currentUser, {
-            displayName: data.name,
-          });
-          await sendEmailVerification(auth.currentUser);
-        }
         router.push("/");
       }
     } catch (e) {

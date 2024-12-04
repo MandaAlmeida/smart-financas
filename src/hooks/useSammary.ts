@@ -16,9 +16,12 @@ export function useSummary() {
         if (transaction.data.type === "income") {
           acc.income += transaction.data.price;
           acc.total += transaction.data.price;
-        } else {
+        } else if (transaction.data.type === "outcome") {
           acc.outcome += transaction.data.price;
           acc.total -= transaction.data.price;
+        } else {
+          acc.card += transaction.data.price;
+          acc.totalCardLimite -= transaction.data.price;
         }
       }
       return acc;
@@ -27,6 +30,8 @@ export function useSummary() {
       income: 0,
       outcome: 0,
       total: 0,
+      card: 0,
+      totalCardLimite: 0,
     }
   );
 

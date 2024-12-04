@@ -3,7 +3,7 @@ import SearchForm from "@/components/SearchForm";
 import { Summary } from "@/components/Summary";
 import { Header } from "@/components/header";
 import { Table } from "@/components/table";
-import { ContainerFilter, TranactionsContainer } from "@/styles/app/Home";
+import { ContainerFilter, TranactionsContainer } from "@/styles/Home";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/clientApp";
 import { useRouter as useRouterNavigation } from "next/navigation";

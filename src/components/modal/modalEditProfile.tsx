@@ -4,7 +4,7 @@ import { Eye, EyeClosed, X } from "phosphor-react";
 import {
   CloseButtonEditProfile,
   ContentEditProfile,
-  OverlayEditProfile,
+  Overlay,
 } from "./styles";
 import { useState } from "react";
 import {
@@ -47,11 +47,11 @@ export default function ModalEditProfile() {
   };
   return (
     <Dialog.Portal>
-      <OverlayEditProfile>
+      <Overlay>
         <ContentEditProfile>
           <Dialog.Title>Editar perfil</Dialog.Title>
           <CloseButtonEditProfile>
-            <X color="white" size={20} />
+            <X size={20} />
           </CloseButtonEditProfile>
           <Dialog.Description>Edite seu perfil aqui</Dialog.Description>
           <form onSubmit={handleSubmit(handleEditProfile)}>
@@ -88,7 +88,7 @@ export default function ModalEditProfile() {
             <button type="submit">Salvar</button>
           </form>
         </ContentEditProfile>
-      </OverlayEditProfile>
+      </Overlay>
     </Dialog.Portal>
   );
 }

@@ -1,33 +1,34 @@
-import logo from "@/assets/logo.svg";
-import * as Dialog from "@radix-ui/react-dialog";
+import { HeaderContainer, HeaderContent, PerfilActive } from "./styled";
 
-import {
-  HeaderContainer,
-  HeaderContent,
-  Menu,
-  NewTransactionButton,
-} from "./styled";
-import { ModalTransaction } from "../modalTransaction";
-import Image from "next/image";
 import UserLogin from "../editProfile";
-import { Plus } from "phosphor-react";
+
+import CreateTransaction from "../createTransaction";
+import { User } from "phosphor-react";
+import { useState } from "react";
 
 export function Header() {
+  const [active, setActive] = useState<PerfilActive>("OFF");
+
+  function handleMenuActive() {
+    if (active === "OFF") {
+      setActive("ACTIVE");
+      console.log(active)
+      return;
+
+
+    }
+
+    setActive("OFF");
+    console.log(active)
+  }
   return (
     <HeaderContainer>
       <HeaderContent>
-        <Image src={logo} alt="logo ignite" />
-        <Menu>
-          <Dialog.Root>
-            <Dialog.Trigger asChild>
-              <NewTransactionButton>
-                <Plus /> Nova transação
-              </NewTransactionButton>
-            </Dialog.Trigger>
-            <ModalTransaction />
-          </Dialog.Root>
-          <UserLogin />
-        </Menu>
+        <button onClick={handleMenuActive}><User />
+        </button>
+        {active === "ACTIVE" ? <UserLogin /> : ""}
+
+        <CreateTransaction />
       </HeaderContent>
     </HeaderContainer>
   );

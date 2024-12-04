@@ -28,7 +28,7 @@ export const ContainerLoginUser = styled.form`
   svg {
     position: absolute;
     font-size: 20px;
-    color: ${(props) => props.theme["green-500"]};
+    color: ${(props) => props.theme["blue-700"]};
     top: 50%;
     left: 18px;
     transform: translateY(-50%);
@@ -38,7 +38,7 @@ export const ContainerLoginUser = styled.form`
     border: 0;
     height: 45px;
     border-radius: 10px;
-    background-color: ${(props) => props.theme["green-500"]};
+    background-color: ${(props) => props.theme["blue-700"]};
     color: ${(props) => props.theme["gray-100"]};
     transition: background 0.5s ease-in-out;
 
