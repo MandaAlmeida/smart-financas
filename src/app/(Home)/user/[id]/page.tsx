@@ -8,7 +8,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/clientApp";
 import { useRouter as useRouterNavigation } from "next/navigation";
 import { useEffect, useState } from "react";
-import CalendarMonth from "@/components/calendar/page";
+import CalendarMonth from "@/components/FilterCalendar";
 
 export default function Transactions() {
   const [user] = useAuthState(auth);

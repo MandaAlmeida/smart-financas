@@ -2,28 +2,28 @@ import {
   PriceHighLight,
   TableContainer,
   DeleteItem,
-  EditItem,
   ContainerItens,
+  Button,
+  AlertContainer,
+  Overlay,
+  Content,
+  Title,
+  Description,
 } from "./styled";
 import { dateFormatter, priceFormatter } from "@/utils/formatter";
 import { useContextSelector } from "use-context-selector";
 import {
-  Transaction,
   TransactionsContext,
 } from "@/contexts/TransactionsContext";
 import { PencilSimpleLine, Trash } from "phosphor-react";
 import { useState } from "react";
 import { Pagination } from "../pagination/index";
 import * as Dialog from "@radix-ui/react-dialog";
+import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { ModalTransaction } from "../modal/modalTransaction";
 
 interface PaginatedTableProps {
   itemsPerPage: number;
-}
-
-interface Item {
-  id: string;
-  data: Transaction;
 }
 
 export function Table({ itemsPerPage }: PaginatedTableProps) {
@@ -96,9 +96,34 @@ export function Table({ itemsPerPage }: PaginatedTableProps) {
                     </Dialog.Trigger>
                     <ModalTransaction title="Editar transação" id={item.id} data={item?.data} />
                   </Dialog.Root>
-                  <DeleteItem onClick={() => deleteTransaction(item.id)}>
-                    <Trash />
-                  </DeleteItem>
+
+                  <AlertDialog.Root>
+                    <AlertDialog.Trigger asChild>
+                      <DeleteItem > <Trash /> </DeleteItem>
+                    </AlertDialog.Trigger>
+                    <AlertDialog.Portal>
+                      <Overlay />
+                      <Content>
+                        <Title>
+                          Você tem certeza que deseja remover essa transação?
+                        </Title>
+                        <Description>
+                          Você esta preste a excluia transação {item.data.description} no valor de {priceFormatter.format(item.data.price)}.
+                        </Description>
+                        <AlertContainer>
+                          <AlertDialog.Cancel asChild>
+                            <Button type="PRIMARY">Cancelar</Button>
+                          </AlertDialog.Cancel>
+                          <AlertDialog.Action asChild>
+                            <Button onClick={() => deleteTransaction(item.id)}>Remover transação</Button>
+                          </AlertDialog.Action>
+                        </AlertContainer>
+                      </Content>
+                    </AlertDialog.Portal>
+                  </AlertDialog.Root>
+
+
+
                 </ContainerItens>
               </tr>
             ))

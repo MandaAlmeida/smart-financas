@@ -1,7 +1,7 @@
 import { ContainerForm, ContainerLogo, ContainerRegister } from "@/styles/User";
 import Link from "next/link";
 import { Metadata } from "next";
-import FormLogin from "@/components/loginUser/page";
+import FormLogin from "@/components/loginUser";
 
 export const metadata: Metadata = {
   title: "Entrar",

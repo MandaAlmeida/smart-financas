@@ -13,8 +13,7 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useContextSelector } from "use-context-selector";
 import { Transaction, TransactionsContext } from "@/contexts/TransactionsContext";
-import { DateInput } from "../date";
-import { ComponentProps, useEffect } from "react";
+import { DateInput } from "@/components/InputDate";
 import React from "react";
 
 const newTransactionFormSchema = z.object({
@@ -76,6 +75,9 @@ export function ModalTransaction({ id = "", data, title, }: ModalEditionProps) {
   const fixed = watch("fixed");
   const isSubmitDisabled = !description || !price || !category || !type;
 
+
+  console.log(data !== undefined ? new Date(data?.createdAt) : "")
+
   return (
     <Dialog.Portal>
       <Overlay />
@@ -122,7 +124,6 @@ export function ModalTransaction({ id = "", data, title, }: ModalEditionProps) {
                 <ContainerDateInput>
                   <DateInput
                     onValueChange={field.onChange}
-                    value={data !== undefined ? new Date(data?.createdAt) : field.value}
                   />
                 </ContainerDateInput>
               )}

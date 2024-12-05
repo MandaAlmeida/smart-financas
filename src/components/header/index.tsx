@@ -1,4 +1,4 @@
-import { HeaderContainer, HeaderContent, PerfilActive } from "./styled";
+import { HeaderContainer, HeaderContent, PerfilActive, ButtonUser } from "./styled";
 
 import UserLogin from "../editProfile";
 
@@ -24,9 +24,11 @@ export function Header() {
   return (
     <HeaderContainer>
       <HeaderContent>
-        <button onClick={handleMenuActive}><User />
-        </button>
-        {active === "ACTIVE" ? <UserLogin /> : ""}
+        <ButtonUser onClick={handleMenuActive}>
+          <User size={20} />
+          {active === "ACTIVE" ? <UserLogin /> : ""}
+        </ButtonUser>
+
 
         <CreateTransaction />
       </HeaderContent>

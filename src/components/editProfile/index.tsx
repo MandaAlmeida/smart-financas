@@ -18,22 +18,21 @@ export default function UserLogin() {
   return (
     <ContainerProfile>
       {auth.currentUser?.displayName}
-      <section>
-        <Dialog.Root>
-          <Dialog.Trigger asChild>
-            <button>
-              <User size={15} />
-              Editar
-            </button>
-          </Dialog.Trigger>
-          <ModalEditProfile />
-        </Dialog.Root>
 
-        <button onClick={signout}>
-          <X size={15} />
-          Sair
-        </button>
-      </section>
+      <Dialog.Root>
+        <Dialog.Trigger asChild>
+          <button>
+            <User size={15} />
+            Editar
+          </button>
+        </Dialog.Trigger>
+        <ModalEditProfile />
+      </Dialog.Root>
+
+      <button onClick={signout}>
+        <X size={15} />
+        Deslogar
+      </button>
     </ContainerProfile>
   );
 }

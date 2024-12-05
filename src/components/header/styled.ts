@@ -37,3 +37,14 @@ export const Menu = styled.section`
   gap: 20px;
   align-items: center;
 `;
+
+
+export const ButtonUser = styled.button`
+position: relative;
+
+color: ${(props) => props.theme["blue-700"]};
+
+border-radius: 100%;
+background-color: ${(props) => props.theme["gray-100"]};
+padding: 1rem;
+`

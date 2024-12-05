@@ -1,13 +1,21 @@
 import styled from "styled-components";
 
 export const ContainerProfile = styled.div`
+position: absolute;
+top: 0;
+left: 0;
+
+width: 200px;
+background-color: ${(props) => props.theme["gray-200"]};
+border-radius: 6px;
+padding: 1.5rem;
+
   display: flex;
   align-items: center;
   flex-direction: column;
-  gap: 5px;
+  gap: 15px;
   font-size: 1.4rem;
-  padding: 0.5rem;
-  color: ${(props) => props.theme["white"]};
+  color: ${(props) => props.theme["bçue-700"]};
 
   section,
   button {
@@ -25,12 +33,10 @@ export const ContainerProfile = styled.div`
     border-radius: 6px;
 
     &:first-child:hover {
-      color: ${(props) => props.theme["blue-700"]};
+      color: ${(props) => props.theme["blue-500"]};
     }
     &:last-child:hover {
       color: ${(props) => props.theme["red-500"]};
     }
   }
 `;
-
-export const Button = styled.button``;

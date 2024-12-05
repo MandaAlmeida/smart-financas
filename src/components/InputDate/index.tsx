@@ -47,9 +47,8 @@ export function DateInput({ value, onValueChange }: DateInputProps) {
           initialFocus
           locale={ptBR}
           captionLayout="dropdown-buttons"
-          fromYear={2020}
-          toYear={2030}
           className="bg-[#C4C4CC] rounded-xl"
+          defaultMonth={value}
         />
       </SectionCalendar>
     </Popover.Root>

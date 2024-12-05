@@ -1,9 +1,7 @@
-import logo from "@/assets/logo.svg";
-import Image from "next/image";
 import { ContainerForm, ContainerLogo, ContainerRegister } from "@/styles/User";
 import Link from "next/link";
 import { Metadata } from "next";
-import FormRegister from "@/components/createUser/index";
+import FormRegister from "@/components/createUser";
 
 export const metadata: Metadata = {
   title: "Registro",
