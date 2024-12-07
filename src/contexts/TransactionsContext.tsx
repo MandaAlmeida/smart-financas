@@ -30,6 +30,7 @@ export interface Transaction {
   price: number;
   category: string;
   createdAt: number;
+  fixed: boolean;
 }
 
 interface CreateTransactionInput {
@@ -38,6 +39,7 @@ interface CreateTransactionInput {
   price: number;
   category: string;
   createdAt: number;
+  fixed: boolean;
 }
 
 export interface TransactionContextType {
@@ -157,6 +159,7 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
                     category: itemData.category,
                     type: itemData.type,
                     createdAt: itemData.createdAt,
+                    fixed: itemData.fixed
                   },
                 };
                 items.push(item);
@@ -173,6 +176,7 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
                   category: itemData.category,
                   type: itemData.type,
                   createdAt: itemData.createdAt,
+                  fixed: itemData.fixed
                 },
               };
               items.push(item);
@@ -200,13 +204,14 @@ export default function TransactionsProvider({ children }: TransactionsProps) {
       try {
         if (auth.currentUser) {
           const userUid = auth.currentUser.uid;
-          const { description, price, category, type, createdAt } = data;
+          const { description, price, category, type, createdAt, fixed } = data;
           const newTransaction = {
             description,
             price,
             category,
             type,
             createdAt: createdAt ? new Date(createdAt).getTime() : 0,
+            fixed,
           };
 
           const docRef = await addDoc(

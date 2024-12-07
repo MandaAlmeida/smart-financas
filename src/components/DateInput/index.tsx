@@ -11,14 +11,15 @@ import { dateFormatter } from "@/utils/formatter";
 import { SectionCalendar } from "./styles";
 
 interface DateInputProps {
-  value?: Date;
+  value: Date;
   onValueChange?: (date: Date | undefined) => void;
 }
 
 export function DateInput({ value, onValueChange }: DateInputProps) {
   const [date, setDate] = React.useState<Date | undefined>(
-    (value = new Date())
+    (value)
   );
+
   const handleDateChange = (selectedDate: Date | undefined) => {
     setDate(selectedDate);
     if (onValueChange) {
@@ -33,7 +34,7 @@ export function DateInput({ value, onValueChange }: DateInputProps) {
           variant={"outline"}
           className={cn(
             "w-full h-[51px] p-4 justify-start border-transparent bg-[#C4C4CC] rounded-[6px] text-[#323238]",
-            !date && "text-muted-foreground"
+            date && "text-muted-foreground"
           )}
         >
           {dateFormatter.format(date)}
@@ -48,7 +49,6 @@ export function DateInput({ value, onValueChange }: DateInputProps) {
           locale={ptBR}
           captionLayout="dropdown-buttons"
           className="bg-[#C4C4CC] rounded-xl"
-          defaultMonth={value}
         />
       </SectionCalendar>
     </Popover.Root>

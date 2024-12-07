@@ -13,7 +13,7 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useContextSelector } from "use-context-selector";
 import { Transaction, TransactionsContext } from "@/contexts/TransactionsContext";
-import { DateInput } from "@/components/InputDate";
+import { DateInput } from "@/components/DateInput";
 import React from "react";
 
 const newTransactionFormSchema = z.object({
@@ -34,7 +34,7 @@ type ModalEditionProps = {
   title: string;
 }
 
-export function ModalTransaction({ id = "", data, title, }: ModalEditionProps) {
+export function ModalTransaction({ id, data, title }: ModalEditionProps) {
   const createTransaction = useContextSelector(
     TransactionsContext,
     (context) => context.createTransaction
@@ -46,6 +46,9 @@ export function ModalTransaction({ id = "", data, title, }: ModalEditionProps) {
   const { control, register, handleSubmit, watch, reset } =
     useForm<NewTransactionFormInputs>({
       resolver: zodResolver(newTransactionFormSchema),
+      defaultValues: {
+        fixed: data?.fixed === true,
+      },
     });
 
 
@@ -58,6 +61,8 @@ export function ModalTransaction({ id = "", data, title, }: ModalEditionProps) {
           ? new Date(data.createdAt).getTime()
           : new Date().setHours(0, 0, 0, 0),
     };
+
+    console.log(transformedData)
 
     if (id) {
       await editTransaction(id, transformedData);
@@ -75,8 +80,7 @@ export function ModalTransaction({ id = "", data, title, }: ModalEditionProps) {
   const fixed = watch("fixed");
   const isSubmitDisabled = !description || !price || !category || !type;
 
-
-  console.log(data !== undefined ? new Date(data?.createdAt) : "")
+  console.log(fixed === false || data?.fixed === true)
 
   return (
     <Dialog.Portal>
@@ -112,9 +116,16 @@ export function ModalTransaction({ id = "", data, title, }: ModalEditionProps) {
           />
 
           <label htmlFor="fixed">
-            <input type="checkbox" id="fixed" {...register("fixed")} />
+            <input
+              type="checkbox"
+              id="fixed"
+              {...register("fixed")}
+              defaultChecked={data?.fixed === true}
+            />
             Valor mensal
           </label>
+
+
 
           {!fixed && (
             <Controller
@@ -123,6 +134,7 @@ export function ModalTransaction({ id = "", data, title, }: ModalEditionProps) {
               render={({ field }) => (
                 <ContainerDateInput>
                   <DateInput
+                    value={data?.createdAt ? new Date(data.createdAt) : new Date()}
                     onValueChange={field.onChange}
                   />
                 </ContainerDateInput>
@@ -135,7 +147,7 @@ export function ModalTransaction({ id = "", data, title, }: ModalEditionProps) {
             render={({ field }) => (
               <TransactionType
                 onValueChange={field.onChange}
-                value={data?.type || field.value}
+                defaultValue={data?.type || field.value}
               >
                 <TransactionTypeButton variant="income" value="income">
                   <ArrowCircleUp size={24} />
