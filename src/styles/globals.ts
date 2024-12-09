@@ -26,4 +26,13 @@ body{
 body, input, textarea, button {
     font: 400 1.6rem 'Roboto', sans-serif;
 }
+
+input:-webkit-autofill,
+input:-internal-autofill-selected,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px #C4C4CC inset !important;
+}
 `;
+

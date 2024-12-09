@@ -55,11 +55,10 @@ export default function ModalEditProfile() {
           </CloseButtonEditProfile>
           <Dialog.Description>Edite seu perfil aqui</Dialog.Description>
           <form onSubmit={handleSubmit(handleEditProfile)}>
-            <input placeholder="Nome" {...register("name")} />
+            <input placeholder="Nome" {...register("name")} defaultValue={auth.currentUser?.displayName || ""} />
 
             <input placeholder="Email" {...register("email")} />
             <div
-              className="password-container"
               style={{
                 position: "relative",
                 display: "flex",
@@ -73,7 +72,6 @@ export default function ModalEditProfile() {
                 style={{ width: "100%", paddingRight: "30px" }}
               />
               <span
-                className="toggle-password"
                 onClick={togglePasswordVisibility}
                 style={{
                   position: "absolute",

@@ -1,9 +1,10 @@
 "use client";
-import { EnvelopeSimple, LockSimple } from "phosphor-react";
+import { EnvelopeSimple, Eye, EyeClosed, LockSimple } from "phosphor-react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useContextSelector } from "use-context-selector";
 import { TransactionsContext } from "@/contexts/TransactionsContext";
+import { FirebaseError } from "firebase/app";
 
 interface User {
   name: string;
@@ -12,9 +13,8 @@ interface User {
 }
 
 export default function FormLogin() {
-  const fetchDate = useContextSelector(TransactionsContext, (context) => {
-    return context.fetchDate;
-  });
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
   const signin = useContextSelector(TransactionsContext, (context) => {
     return context.signin;
   });
@@ -27,17 +27,27 @@ export default function FormLogin() {
     const password = data.password;
     try {
       const { result, error } = await signin(email, password);
-      if (error) {
-        console.error("Erro ao fazer login:", error);
-      } else if (result) {
-        console.log("Usuário logado com sucesso:", result.user);
-
-        fetchDate("");
+      const span = spanError.current;
+      if (error && span) {
+        const firebaseError = error as FirebaseError;
+        span.style.fontSize = "1.2rem";
+        if (firebaseError.message) {
+          console.log(firebaseError.message);
+          throw new Error(firebaseError.message);
+        } else {
+          console.log("Unknown Error:", firebaseError);
+          throw new Error("Unknown Error");
+        }
       }
-    } catch (error) {
-      console.error("Erro ao fazer login:", error);
+    } catch (e) {
+      console.error(e);
     }
   };
+
+  function togglePasswordVisibility() {
+    setPasswordVisible(!passwordVisible);
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <section>
@@ -52,11 +62,12 @@ export default function FormLogin() {
       <section>
         <LockSimple />
         <input
-          type="password"
+          type={passwordVisible ? "text" : "password"}
           placeholder="Sua senha"
-          {...register("password")}
-          required
-        />
+          {...register("password")} />
+        <div onClick={togglePasswordVisibility}>
+          {passwordVisible ? <EyeClosed size={24} /> : <Eye size={24} />}
+        </div>
         <span ref={spanError}>Email ou senha incorretos</span>
       </section>
 

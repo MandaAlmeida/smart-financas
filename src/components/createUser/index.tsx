@@ -6,6 +6,7 @@ import singUp from "@/firebase/auth/singUp";
 import { FirebaseError } from "firebase/app";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
+import Link from "next/link";
 
 interface Users {
   name: string;
@@ -14,7 +15,6 @@ interface Users {
 }
 export default function FormRegister() {
   const { register, handleSubmit } = useForm<Users>();
-  const router = useRouter();
   const spanError = useRef<HTMLSpanElement>(null);
 
   const onSubmit: SubmitHandler<Users> = async (data) => {
@@ -34,8 +34,6 @@ export default function FormRegister() {
           console.log("Unknown Error:", firebaseError);
           throw new Error("Unknown Error");
         }
-      } else {
-        router.push("/");
       }
     } catch (e) {
       console.error(e);
@@ -67,7 +65,7 @@ export default function FormRegister() {
           required
         />
       </section>
-      <button type="submit">Criar conta</button>
+      <button type="submit"> Criar conta</button>
     </form>
   );
 }

@@ -2,7 +2,6 @@ import styled from "styled-components";
 import * as Dialog from "@radix-ui/react-dialog";
 
 export const NewTransactionButton = styled(Dialog.Trigger)`
-  height: 50px;
   border: 0;
   background: ${(props) => props.theme["blue-500"]};
 

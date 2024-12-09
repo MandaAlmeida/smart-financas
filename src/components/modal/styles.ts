@@ -93,8 +93,6 @@ export const CloseButtonEditProfile = styled(Dialog.Close)`
   cursor: pointer;
 `;
 
-//Modal Profile
-
 export const Content = styled(Dialog.Content)`
   min-width: 51.2rem;
   border-radius: 6px;

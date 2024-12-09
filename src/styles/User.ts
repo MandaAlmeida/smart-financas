@@ -44,6 +44,17 @@ export const ContainerForm = styled.section`
 
   section {
     position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    height: 45px;
+    width: 100%;
+    border: 0;
+    border-radius: 10px;
+    background: ${(props) => props.theme["gray-300"]};
+    padding: 5px 10px;
     span {
       position: absolute;
       bottom: -20px;
@@ -55,12 +66,9 @@ export const ContainerForm = styled.section`
   }
 
   input {
-    height: 45px;
+    background-color: transparent;
     width: 100%;
-    border: 0;
-    border-radius: 10px;
-    background: ${(props) => props.theme["gray-300"]};
-    padding: 5px 51px;
+    height: 100%;
     color: ${(props) => props.theme["gray-600"]};
 
     &::placeholder {
@@ -69,12 +77,8 @@ export const ContainerForm = styled.section`
   }
 
   svg {
-    position: absolute;
     font-size: 20px;
     color: ${(props) => props.theme["blue-700"]};
-    top: 50%;
-    left: 18px;
-    transform: translateY(-50%);
   }
 
   button {

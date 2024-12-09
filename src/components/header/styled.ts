@@ -17,6 +17,7 @@ export const HeaderContainer = styled.header`
 export const HeaderContent = styled.div`
   width: 100%;
   max-width: 112rem;
+  gap: 15px;
 
   display: flex;
   align-items: center;

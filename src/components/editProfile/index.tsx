@@ -1,8 +1,8 @@
 import { auth } from "@/firebase/clientApp";
 
-import { ContainerProfile } from "./styles";
+import { Button, ContainerProfile } from "./styles";
 
-import { User, X } from "phosphor-react";
+import { User, SignOut } from "phosphor-react";
 import { useContextSelector } from "use-context-selector";
 import { TransactionsContext } from "@/contexts/TransactionsContext";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -17,22 +17,20 @@ export default function UserLogin() {
 
   return (
     <ContainerProfile>
-      {auth.currentUser?.displayName}
-
-      <Dialog.Root>
+      {/* <Dialog.Root>
         <Dialog.Trigger asChild>
-          <button>
-            <User size={15} />
-            Editar
-          </button>
+          <Button>
+            <User />
+            Editar Perfil
+          </Button>
         </Dialog.Trigger>
         <ModalEditProfile />
-      </Dialog.Root>
+      </Dialog.Root> */}
 
-      <button onClick={signout}>
-        <X size={15} />
-        Deslogar
-      </button>
+      <Button onClick={signout}>
+        <SignOut />
+        Sair da conta
+      </Button>
     </ContainerProfile>
   );
 }
