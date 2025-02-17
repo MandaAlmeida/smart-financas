@@ -45,9 +45,7 @@ export const Button = styled.button`
 
   @media (max-width: 750px) {
     font-size: 0;
-    border-radius: 100%;
     padding: 0.6rem;
-    border: ${(props) => props.theme["white"]} 1px solid;
     background: transparent;
     height: 30px;
 

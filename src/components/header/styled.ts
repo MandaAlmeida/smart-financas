@@ -1,11 +1,11 @@
 "use client";
 import styled from "styled-components";
 
-export type PerfilActive = "OFF" | "ACTIVE";
+// export type PerfilActive = "OFF" | "ACTIVE";
 
-type Props = {
-  type: PerfilActive
-}
+// type Props = {
+//   type: PerfilActive
+// }
 
 
 

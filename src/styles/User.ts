@@ -19,6 +19,10 @@ export const ContainerLogo = styled.section`
   height: 100vh;
 
   background-color: ${(props) => props.theme["blue-700"]};
+
+  @media (max-width: 768px){
+    display: none;
+  }
 `;
 
 export const ContainerForm = styled.section`
